@@ -45,3 +45,6 @@ application.yml
 
 ### test sample data ###
 **/src/test/**/sample/
+
+### module root application.yml ###
+auth/application.yml
