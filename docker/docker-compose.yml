@@ -1,0 +1,30 @@
+version: '3.8'
+networks:
+  default:
+    name: prism
+
+services:
+  prism-mysql:
+    image: mysql
+    platform: linux/amd64
+    user: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./config:/etc/mysql/conf.d
+    environment:
+      - MYSQL_DATABASE=prism_local
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_PASSWORD=password
+  prism-mysql-phpmyadmin:
+    depends_on:
+      - prism-mysql
+    image: phpmyadmin/phpmyadmin
+    platform: linux/x86_64
+    container_name: prism-mysql-phpmyadmin
+    ports:
+      - 8082:80
+    environment:
+      PMA_HOST: prism-mysql
+      MYSQL_ROOT_PASSWORD: password
+
