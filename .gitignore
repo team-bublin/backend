@@ -48,3 +48,8 @@ application.yml
 
 ### module root application.yml ###
 auth/application.yml
+
+### asdf local version ###
+.tool-versions
+
+**/src/generated
