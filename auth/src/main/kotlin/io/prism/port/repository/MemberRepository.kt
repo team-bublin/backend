@@ -1,7 +1,7 @@
 package io.prism.port.repository
 
-import io.prism.domain.entity.Member
-import io.prism.domain.tables.Member.MEMBER
+import io.prism.entity.Member
+import io.prism.entity.tables.Member.MEMBER
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
 

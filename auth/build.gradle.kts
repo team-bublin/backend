@@ -4,7 +4,6 @@ import org.jooq.meta.jaxb.Property
 
 description = "authentication module"
 
-
 plugins {
     id("nu.studer.jooq") version "8.1"
 }
@@ -12,25 +11,28 @@ plugins {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
-    runtimeOnly ("mysql:mysql-connector-java:8.0.32")
-    jooqGenerator("mysql:mysql-connector-java:8.0.32")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
+
     implementation("org.apache.commons:commons-text:1.10.0")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
-    implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+    runtimeOnly ("mysql:mysql-connector-java:8.0.32")
+    jooqGenerator("mysql:mysql-connector-java:8.0.32")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 
 
 jooq {
-    version.set("3.17.6")  // default (can be omitted)
-    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)  // default (can be omitted)
+    version.set("3.17.6")
+    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)
 
     configurations {
-        create("main") {  // name of the jOOQ configuration
-            generateSchemaSourceOnCompilation.set(true)  // default (can be omitted)
+        create("main") {
+            generateSchemaSourceOnCompilation.set(true)
 
             jooqConfiguration.apply {
                 logging = Logging.WARN
@@ -69,8 +71,8 @@ jooq {
                         isFluentSetters = true
                     }
                     target.apply {
-                        packageName = "io.prism.domain.entity"
-                        directory = "build/generated-src/jooq/main"  // default (can be omitted)
+                        packageName = "io.prism.entity"
+                        directory = "build/generated-src/jooq/main"
                     }
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                 }

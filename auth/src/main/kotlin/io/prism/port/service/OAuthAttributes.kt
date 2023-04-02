@@ -1,7 +1,7 @@
 package io.prism.port.service
 
-import io.prism.domain.entity.Member
-import io.prism.domain.entity.Role
+import io.prism.entity.Member
+import io.prism.entity.Role
 
 data class OAuthAttributes(
     val attributes: Map<String, Any>,

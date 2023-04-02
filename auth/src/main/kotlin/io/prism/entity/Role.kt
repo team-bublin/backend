@@ -1,4 +1,4 @@
-package io.prism.domain.entity
+package io.prism.entity
 
 enum class Role {
     ROLE_USER,
