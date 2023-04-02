@@ -1,4 +1,4 @@
-package io.prism.controller
+package io.prism.adapter.http
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -11,8 +11,7 @@ import java.util.stream.Stream
 
 
 @RestController
-class AuthenticationController {
-
+class HttpAuthenticationAdapter {
 
     @GetMapping("/test")
     fun hello(): Mono<Map<String, Any>> {

@@ -1,7 +1,6 @@
-package io.prism.config
+package io.prism.adapter.security
 
-import io.prism.entity.Role
-import io.prism.jwt.JwtProvider
+import io.prism.domain.entity.Role
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.ReactiveSecurityContextHolder

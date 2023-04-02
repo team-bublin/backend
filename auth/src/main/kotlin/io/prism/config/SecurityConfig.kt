@@ -1,8 +1,10 @@
 package io.prism.config
 
+import io.prism.adapter.security.JwtAuthenticationFilter
+import io.prism.adapter.security.OAuth2SuccessHandler
 import io.prism.exception.UnauthorizedError
-import io.prism.jwt.JwtProvider
-import io.prism.repository.MemberRepository
+import io.prism.adapter.security.JwtProvider
+import io.prism.port.repository.MemberRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.Customizer

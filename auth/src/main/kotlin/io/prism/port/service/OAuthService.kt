@@ -1,8 +1,8 @@
-package io.prism.service
+package io.prism.port.service
 
-import io.prism.config.CustomOAuth2User
-import io.prism.entity.Member
-import io.prism.repository.MemberRepository
+import io.prism.domain.CustomOAuth2User
+import io.prism.domain.entity.Member
+import io.prism.port.repository.MemberRepository
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.oauth2.client.userinfo.DefaultReactiveOAuth2UserService
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest

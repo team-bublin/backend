@@ -1,6 +1,6 @@
-package io.prism.config
+package io.prism.adapter.security
 
-import io.prism.jwt.JwtProvider
+import io.prism.domain.CustomOAuth2User
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication

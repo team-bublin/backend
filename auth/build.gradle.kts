@@ -69,7 +69,7 @@ jooq {
                         isFluentSetters = true
                     }
                     target.apply {
-                        packageName = "io.prism.entity"
+                        packageName = "io.prism.domain.entity"
                         directory = "build/generated-src/jooq/main"  // default (can be omitted)
                     }
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"

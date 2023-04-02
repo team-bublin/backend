@@ -1,12 +1,11 @@
 package io.prism.repository
 
-import io.prism.AuthApplication
-import io.prism.entity.Member
-import io.prism.entity.Role
+import io.prism.domain.entity.Member
+import io.prism.domain.entity.Role
+import io.prism.port.repository.MemberRepository
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.annotation.Rollback
 
 @SpringBootTest
 class MemberRepositoryTest @Autowired constructor(

@@ -1,4 +1,4 @@
-package io.prism.entity
+package io.prism.domain.entity
 
 import java.time.LocalDateTime
 

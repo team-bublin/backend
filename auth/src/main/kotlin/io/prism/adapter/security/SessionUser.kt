@@ -1,4 +1,4 @@
-package io.prism.config
+package io.prism.adapter.security
 
 data class SessionUser(
     val email: String,

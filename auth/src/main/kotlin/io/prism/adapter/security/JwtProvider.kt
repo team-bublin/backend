@@ -1,10 +1,10 @@
-package io.prism.jwt
+package io.prism.adapter.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.JwtParser
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import io.prism.config.SessionUser
+import io.prism.config.SecretKeyProperties
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.security.KeyFactory

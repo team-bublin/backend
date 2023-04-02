@@ -1,4 +1,4 @@
-package io.prism.jwt
+package io.prism.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
