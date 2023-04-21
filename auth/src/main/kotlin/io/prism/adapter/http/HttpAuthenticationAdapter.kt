@@ -1,17 +1,20 @@
 package io.prism.adapter.http
 
+import io.prism.port.repository.MemberRepository
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.security.KeyPairGenerator
 import java.security.spec.ECGenParameterSpec
+import java.time.LocalDateTime
 import java.util.*
 import java.util.stream.Stream
 
 
 @RestController
-class HttpAuthenticationAdapter {
+class HttpAuthenticationAdapter(private val memberRepository: MemberRepository) {
 
     @GetMapping("/test")
     fun hello(): Mono<Map<String, Any>> {
@@ -32,4 +35,23 @@ class HttpAuthenticationAdapter {
         return Flux.fromStream(stream) // Limit 제외
             .map { i -> mapOf("value" to i) }
     }
+
+    @GetMapping("/member/{email}")
+    fun findMemberByEmail(@PathVariable email: String): Mono<Any> {
+        val member =
+            memberRepository.findByEmail(email) ?: Mono.error<IllegalArgumentException>(IllegalArgumentException())
+        println(member)
+        return Mono.just(member)
+    }
+
+    @GetMapping("/auth-test")
+    fun authTest() {
+        println("auth-test")
+    }
+
+    @GetMapping("/")
+    fun main(): Mono<LocalDateTime> {
+        return Mono.just(LocalDateTime.now())
+    }
+
 }

@@ -37,6 +37,13 @@ subprojects {
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
         implementation("org.springframework.boot:spring-boot-starter")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
+        implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    }
+
+    allOpen {
+        annotation("javax.persistence.Entity")
+        annotation("javax.persistence.MappedSuperclass")
+        annotation("javax.persistence.Embeddable")
     }
 
 
@@ -56,4 +63,6 @@ subprojects {
             extendsFrom(configurations.annotationProcessor.get())
         }
     }
+
+
 }

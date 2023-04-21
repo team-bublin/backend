@@ -1,5 +1,6 @@
 package io.prism.config
 
+import io.prism.adapter.security.AuthenticationCacheService
 import io.prism.adapter.security.JwtAuthenticationFilter
 import io.prism.adapter.security.JwtProvider
 import io.prism.adapter.security.OAuth2SuccessHandler
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
 import reactor.core.publisher.Mono
@@ -18,7 +20,8 @@ import reactor.core.publisher.Mono
 @EnableWebFluxSecurity
 @Configuration
 class SecurityConfig(
-    private val jwtProvider: JwtProvider
+    private val jwtProvider: JwtProvider,
+    private val authenticationCacheService: AuthenticationCacheService
 ) {
 
     @Bean
@@ -27,15 +30,16 @@ class SecurityConfig(
             .cors()
             .and()
             .csrf().disable()
+            .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
             .httpBasic().disable()
             .formLogin().disable()
-            //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
             .authorizeExchange()
+           // .pathMatchers("/**").permitAll()
             .anyExchange().authenticated()
             .and()
-            .addFilterBefore(JwtAuthenticationFilter(jwtProvider), SecurityWebFiltersOrder.AUTHENTICATION)
+            .addFilterBefore(JwtAuthenticationFilter(jwtProvider, authenticationCacheService), SecurityWebFiltersOrder.AUTHENTICATION)
             .oauth2Login(Customizer.withDefaults())
-            .oauth2Login().authenticationSuccessHandler(OAuth2SuccessHandler(jwtProvider))
+            .oauth2Login().authenticationSuccessHandler(OAuth2SuccessHandler(jwtProvider, authenticationCacheService))
             .and()
             .exceptionHandling()
             .accessDeniedHandler { exchange, exception -> Mono.error(UnauthorizedError()) }

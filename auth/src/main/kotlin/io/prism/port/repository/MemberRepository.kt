@@ -14,7 +14,7 @@ class MemberRepository(private val dsl: DSLContext) {
             .set(MEMBER.NAME, member.name)
             .set(MEMBER.EMAIL, member.email)
             .set(MEMBER.ROLE, member.role.name)
-            .set(MEMBER.CREATEDAT, member.createdAt)
+            .set(MEMBER.CREATED_AT, member.createdAt)
             .execute()
         return member
     }
