@@ -8,6 +8,8 @@ plugins {
 
 dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
+    testImplementation("io.kotest:kotest-runner-junit5:5.6.1")
+    testImplementation("io.kotest:kotest-assertions-core:5.6.1")
 }
 
 allOpen {
