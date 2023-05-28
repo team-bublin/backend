@@ -7,7 +7,7 @@ plugins {
 }
 
 ext {
-    set("schemaInitPath", "$rootDir/docker/init.d")
+    set("schemaInitPath", "$rootDir/docker/mysql-init-files")
     set("schemaFileName", "0_init_schema.sql")
 }
 
