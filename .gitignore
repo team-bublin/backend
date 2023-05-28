@@ -53,3 +53,6 @@ auth/application.yml
 .tool-versions
 
 **/src/generated
+
+### mysql-docker init script ###
+docker/mysql-init-files/**
