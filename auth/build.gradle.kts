@@ -83,6 +83,9 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+    // redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
     runtimeOnly("mysql:mysql-connector-java:8.0.32")
     runtimeOnly("com.h2database:h2:2.1.214")
 

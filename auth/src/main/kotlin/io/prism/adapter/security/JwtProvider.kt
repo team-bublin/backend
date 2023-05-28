@@ -1,10 +1,11 @@
 package io.prism.adapter.security
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtParser
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import io.prism.config.SecretKeyProperties
+import io.prism.config.JwtProperties
+import mu.KotlinLogging
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.security.KeyFactory
@@ -12,21 +13,17 @@ import java.security.KeyPairGenerator
 import java.security.spec.ECGenParameterSpec
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
+import java.time.Duration
 import java.util.*
 
 
 @Component
 class JwtProvider(
-    properties: SecretKeyProperties,
-    private val objectMapper: ObjectMapper
+    private val properties: JwtProperties,
 ) {
     private val privateKey: Key
     private val jwtParser: JwtParser
-
-    companion object {
-        const val ACCESS_TOKEN_EXPIRATION_TIME = 1 * 60 * 1000L
-        const val ISSUER = "prism"
-    }
+    private val log = KotlinLogging.logger {}
 
     init {
         val keyPairGenerator = KeyPairGenerator.getInstance("EC")
@@ -36,22 +33,61 @@ class JwtProvider(
 
         val publicKey = KeyFactory.getInstance("EC")
             .generatePublic(X509EncodedKeySpec(Base64.getDecoder().decode(properties.publicKey)))
-        jwtParser = Jwts.parserBuilder().setSigningKey(publicKey).build()
+        jwtParser = Jwts.parserBuilder()
+            .setSigningKey(publicKey)
+            .requireIssuer(properties.issuer)
+            .build()
     }
 
     fun createAccessToken(subject: String, claims: Map<String, Any>): String {
         val now = Date()
-        val expireAt = Date(now.time + ACCESS_TOKEN_EXPIRATION_TIME)
+        val expireAt = Date(now.time + Duration.ofSeconds(properties.accessTokenExpirationTime).toMillis())
+
         return Jwts.builder()
-            .setExpiration(expireAt)
             .setClaims(claims)
-            .setIssuer(ISSUER)
+            .setExpiration(expireAt)
+            .setSubject(subject)
+            .setIssuer(properties.issuer)
             .signWith(privateKey, SignatureAlgorithm.ES256)
             .compact()
     }
 
-    fun decode(jwt: String): SessionUser {
-        val parse = jwtParser.parseClaimsJws(jwt)
-        return objectMapper.convertValue(parse.body, SessionUser::class.java)
+    fun createAccessToken(claims: Claims): String {
+        val now = Date()
+        val expireAt = Date(now.time + Duration.ofSeconds(properties.accessTokenExpirationTime).toMillis())
+
+        return Jwts.builder()
+            .setClaims(claims)
+            .setExpiration(expireAt)
+            .setSubject(claims.subject)
+            .setIssuer(properties.issuer)
+            .signWith(privateKey, SignatureAlgorithm.ES256)
+            .compact()
+    }
+
+    fun createRefreshToken(subject: String): String {
+        val now = Date()
+        val expireAt = Date(now.time + Duration.ofSeconds(properties.refreshTokenExpirationTime).toMillis())
+
+        return Jwts.builder()
+            .setExpiration(expireAt)
+            .setIssuer(properties.issuer)
+            .signWith(privateKey, SignatureAlgorithm.ES256)
+            .compact()
+    }
+
+    fun decode(jwt: String): Claims {
+        return jwtParser.parseClaimsJws(jwt).body
+    }
+
+
+    fun isValidJwt(jwt: String): Boolean {
+        return try {
+            jwtParser.parseClaimsJws(jwt)
+
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 }

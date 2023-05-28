@@ -1,15 +1,14 @@
 package io.prism.config
 
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.Configuration
-import java.security.Key
 
-@Configuration
-@ConfigurationProperties(prefix = "jwt")
-class JwtProperties {
-    @Value("\$secret")
-    lateinit var secret: Key
-    @Value("\$expires")
-    lateinit var expires: String
-}
+@ConfigurationProperties("jwt")
+data class JwtProperties(
+    val privateKey: String,
+    val publicKey: String,
+    val issuer: String,
+    val accessTokenName: String,
+    val refreshTokenName: String,
+    val accessTokenExpirationTime: Long,
+    val refreshTokenExpirationTime: Long
+)

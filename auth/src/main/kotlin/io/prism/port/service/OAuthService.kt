@@ -22,9 +22,9 @@ class OAuthService(private val memberRepository: MemberRepository) :
                 val registrationId = userRequest.clientRegistration.registrationId
                 val userNameAttributeName =
                     userRequest.clientRegistration.providerDetails.userInfoEndpoint.userNameAttributeName
-                val attributes =
-                    OAuthAttributes.of(registrationId, userNameAttributeName, it.attributes)
+                val attributes = OAuthAttributes.of(registrationId, userNameAttributeName, it.attributes)
                 val member: Member = saveOrUpdate(attributes)
+
                 Mono.just(
                     CustomOAuth2User(
                         setOf(SimpleGrantedAuthority(member.role.name)),

@@ -12,8 +12,8 @@ import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
-@Component
-@Order(-1)
+//@Component
+//@Order(-1)
 class GlobalExceptionHandler : ErrorWebExceptionHandler {
     private val log = LoggerFactory.getLogger(this::class.java)
     override fun handle(exchange: ServerWebExchange, ex: Throwable): Mono<Void> {
